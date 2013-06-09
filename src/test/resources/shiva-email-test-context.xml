@@ -10,4 +10,8 @@
 
     <import resource="shiva-email-context.xml"/>
 
+    <bean parent="mailMessages" class="org.springframework.context.support.ResourceBundleMessageSource"/>
+
+    <bean parent="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"/>
+
 </beans>

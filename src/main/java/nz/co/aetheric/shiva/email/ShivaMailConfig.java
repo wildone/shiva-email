@@ -12,4 +12,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class ShivaMailConfig {
     private static final Logger logger = LoggerFactory.getLogger(ShivaMailConfig.class);
+
+    @Value("${shiva.mail.sender}")
+    String mailSender;
+
+    @Value("${shiva.mail.copyto:}")
+    String copyRecipient;
+
+    public String getMailSender() {
+        return mailSender;
+    }
+
+    public String getCopyRecipient() {
+        return copyRecipient;
+    }
+
 }

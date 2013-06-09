@@ -14,4 +14,12 @@
 
     <context:annotation-config/>
 
+    <bean id="mailMessages" abstract="true" class="org.springframework.context.MessageSource"/>
+    <bean id="mailSender" abstract="true" class="org.springframework.mail.MailSender"/>
+
+    <bean id="shivaMail" abstract="true" class="nz.co.aetheric.shiva.email.ShivaMail"/>
+
+    <bean class="nz.co.aetheric.shiva.email.ShivaMailConfig"/>
+    <bean parent="shivaMail" class="nz.co.aetheric.shiva.email.ShivaMailService"/>
+
 </beans>
