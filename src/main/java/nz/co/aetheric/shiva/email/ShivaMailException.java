@@ -1,5 +1,6 @@
 package nz.co.aetheric.shiva.email;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.MailParseException;
@@ -18,8 +19,8 @@ import java.util.Map;
  */
 public class ShivaMailException extends Exception implements MessageSourceResolvable {
     public static final String ERROR_CODE_BASE = "shiva.mail.error";
-    public static final String SUFFIX_UNKNOWN = "unknown";
-    public static final Map<Class<? extends Throwable>, String> SUFFIXES;
+    public static final String ERROR_SUFFIX_UNKNOWN = "unknown";
+    public static final Map<Class<? extends Throwable>, String> ERROR_SUFFIX_MAP;
 
     static {
         Map<Class<? extends Throwable>, String> map = new LinkedHashMap<>();
@@ -29,7 +30,7 @@ public class ShivaMailException extends Exception implements MessageSourceResolv
         map.put(MailPreparationException.class, "prepare");
         map.put(MailSendException.class, "send");
 
-        SUFFIXES = Collections.unmodifiableMap(map);
+        ERROR_SUFFIX_MAP = Collections.unmodifiableMap(map);
     }
 
     public ShivaMailException(Throwable reason) {
@@ -67,12 +68,16 @@ public class ShivaMailException extends Exception implements MessageSourceResolv
     }
 
     protected static String buildCode(String suffix) {
+        if (StringUtils.isBlank(suffix)) {
+            throw new IllegalArgumentException("Suffix must not be null or blank.");
+        }
+
         return ERROR_CODE_BASE + "." + suffix;
     }
 
     protected static String getSuffix(Throwable throwable) {
-        String suffix = SUFFIXES.get(throwable.getClass());
-        return suffix == null ? SUFFIX_UNKNOWN : suffix;
+        String suffix = ERROR_SUFFIX_MAP.get(throwable.getClass());
+        return suffix == null ? ERROR_SUFFIX_UNKNOWN : suffix;
     }
 
 }
