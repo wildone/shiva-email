@@ -1,14 +1,12 @@
 package nz.co.aetheric.shiva.email;
 
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.mail.MailAuthenticationException;
-import org.springframework.mail.MailException;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 
 /**
  * Unit testing for {@link ShivaMailException}.
@@ -20,7 +18,7 @@ public class ShivaMailExceptionTest {
     @Test
     public void testGetCodes() throws Exception {
         final ShivaMailException exception = buildShivaExceptionWithCause();
-        final String[] expected = new String[] {
+        final String[] expected = new String[]{
                 buildCodeFromException(exception),
                 ShivaMailException.ERROR_CODE_BASE
         };

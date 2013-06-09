@@ -1,6 +1,6 @@
 package nz.co.aetheric.shiva.email;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.MailParseException;

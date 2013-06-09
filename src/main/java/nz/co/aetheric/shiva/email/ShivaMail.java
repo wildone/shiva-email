@@ -1,7 +1,5 @@
 package nz.co.aetheric.shiva.email;
 
-import org.springframework.stereotype.Service;
-
 import java.util.Collection;
 import java.util.Locale;
 
@@ -9,7 +7,6 @@ import java.util.Locale;
  * This service provides a no-hassle way of sending pre-configured email to recipients.
  * <p>Author: <a href="http://gplus.to/tzrlk">Peter Cummuskey</a></p>
  */
-@Service
 public interface ShivaMail {
 
     void sendMail(ShivaMailPacket packet) throws ShivaMailException;

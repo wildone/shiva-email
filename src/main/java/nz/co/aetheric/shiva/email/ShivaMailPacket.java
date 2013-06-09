@@ -1,7 +1,5 @@
 package nz.co.aetheric.shiva.email;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 
@@ -14,7 +12,6 @@ import java.util.Locale;
  * <p>Author: <a href="http://gplus.to/tzrlk">Peter Cummuskey</a></p>
  */
 public class ShivaMailPacket {
-    private static final Logger logger = LoggerFactory.getLogger(ShivaMailPacket.class);
 
     protected String code;
     protected Locale locale;

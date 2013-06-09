@@ -1,9 +1,9 @@
 package nz.co.aetheric.shiva.email;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
-import org.springframework.mail.*;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,7 +16,6 @@ import java.util.Locale;
  */
 @Service
 public class ShivaMailService implements ShivaMail {
-    private static final Logger logger = LoggerFactory.getLogger(ShivaMailService.class);
 
     @Resource
     protected MailSender mailSender;
