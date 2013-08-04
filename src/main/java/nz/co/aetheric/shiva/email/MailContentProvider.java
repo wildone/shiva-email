@@ -9,6 +9,9 @@ import java.util.Locale;
  */
 public interface MailContentProvider {
 
+	public static String TYPE_PLAIN = "plain";
+	public static String TYPE_HTML = "html";
+
 	/**
 	 * Retrieve the mail content stored under the provided key, locale and rendering type.
 	 * @param key The under which the content is stored under.
