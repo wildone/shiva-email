@@ -32,6 +32,6 @@ public interface MailContentProvider {
 	 * @return All matching instances of the mail content data.
 	 * @throws ShivaMailException
 	 */
-	public Collection<MailContent> getMailContent(String key, Locale locale) throws ShivaMailException;
+	public Collection<? extends MailContent> getMailContent(String key, Locale locale) throws ShivaMailException;
 
 }
