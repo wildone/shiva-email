@@ -1,83 +1,61 @@
 package nz.co.aetheric.shiva.email;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.MessageSourceResolvable;
-import org.springframework.mail.MailAuthenticationException;
-import org.springframework.mail.MailParseException;
-import org.springframework.mail.MailPreparationException;
-import org.springframework.mail.MailSendException;
-
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
- * This exception simply acts as a wrapper for other possible exceptions thrown during the mail sending process. Since
- * the exception is {@link MessageSourceResolvable}, it can be fed directly into a
- * {@link org.springframework.context.MessageSource} to retrieve whatever message has been configured.
+ * This exception simply acts as a wrapper for other possible exceptions thrown during the mail sending process.
  * <p>Author: <a href="http://gplus.to/tzrlk">Peter Cummuskey</a></p>
  */
-public class ShivaMailException extends Exception implements MessageSourceResolvable {
-    public static final String ERROR_CODE_BASE = "shiva.mail.error";
-    public static final String ERROR_SUFFIX_UNKNOWN = "unknown";
-    public static final Map<Class<? extends Throwable>, String> ERROR_SUFFIX_MAP;
+public class ShivaMailException extends Exception {
+	public static final String ERROR_CODE_BASE = "shiva.mail.error";
+	public static final String ERROR_SUFFIX_UNKNOWN = "unknown";
 
-    static {
-        Map<Class<? extends Throwable>, String> map = new LinkedHashMap<>();
+	/**
+	 * Creates an exception with a suffix, but without any triggering exception.
+	 *
+	 * @param suffix The suffix to append to {@link #ERROR_CODE_BASE}
+	 */
+	public ShivaMailException(String suffix) {
+		super(buildCode(suffix));
+	}
 
-        map.put(MailAuthenticationException.class, "auth");
-        map.put(MailParseException.class, "parse");
-        map.put(MailPreparationException.class, "prepare");
-        map.put(MailSendException.class, "send");
+	/**
+	 * Creates an exception from a triggering exception, but with an unknown suffix.
+	 *
+	 * @param reason The triggering exception to wrap.
+	 */
+	public ShivaMailException(Throwable reason) {
+		super(buildCode(ERROR_SUFFIX_UNKNOWN), reason);
+	}
 
-        ERROR_SUFFIX_MAP = Collections.unmodifiableMap(map);
-    }
+	/**
+	 * Creates a new exception with the triggering exception and the provided suffix.
+	 *
+	 * @param reason The internal exception that caused the issue.
+	 * @param suffix The triggering exception to wrap.
+	 */
+	public ShivaMailException(Throwable reason, String suffix) {
+		super(buildCode(suffix), reason);
+	}
 
-    public ShivaMailException(Throwable reason) {
-        this(reason, getSuffix(reason));
-    }
+	/**
+	 * Adds the provided suffix to the end of {@link #ERROR_CODE_BASE} and returns the result.
+	 *
+	 * @param suffix The suffix to append.
+	 * @return The completed code.
+	 */
+	protected static String buildCode(String suffix) {
+		if (StringUtils.isBlank(suffix)) {
+			throw new IllegalArgumentException("Suffix must not be null or blank.");
+		}
 
-    public ShivaMailException(Throwable reason, String suffix) {
-        super(buildCode(suffix), reason);
-    }
+		StringBuilder builder = new StringBuilder(ERROR_CODE_BASE);
 
-    @Override
-    public String[] getCodes() {
-        return new String[] {
-                getMessage(),
-                ERROR_CODE_BASE
-        };
-    }
+		if (!suffix.startsWith(".")) {
+			builder.append('.');
+		}
 
-    /**
-     * No arguments are currently required or supported in this implementation.
-     * @return Always a null value.
-     */
-    @Override
-    public Object[] getArguments() {
-        return null;
-    }
-
-    /**
-     * Will always return whatever code is stored in the exception message.
-     * @return {@link #getMessage()}.
-     */
-    @Override
-    public String getDefaultMessage() {
-        return getMessage();
-    }
-
-    protected static String buildCode(String suffix) {
-        if (StringUtils.isBlank(suffix)) {
-            throw new IllegalArgumentException("Suffix must not be null or blank.");
-        }
-
-        return ERROR_CODE_BASE + "." + suffix;
-    }
-
-    protected static String getSuffix(Throwable throwable) {
-        String suffix = ERROR_SUFFIX_MAP.get(throwable.getClass());
-        return suffix == null ? ERROR_SUFFIX_UNKNOWN : suffix;
-    }
+		return builder.append(suffix).toString();
+	}
 
 }
