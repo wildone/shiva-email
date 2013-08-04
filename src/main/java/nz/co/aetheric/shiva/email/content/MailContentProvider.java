@@ -1,4 +1,7 @@
-package nz.co.aetheric.shiva.email;
+package nz.co.aetheric.shiva.email.content;
+
+import nz.co.aetheric.shiva.email.content.MailContent;
+import nz.co.aetheric.shiva.email.ShivaMailException;
 
 import java.util.Collection;
 import java.util.Locale;
@@ -18,7 +21,7 @@ public interface MailContentProvider {
 	 * @param locale The locale for which the content is targeted.
 	 * @param type The rendering type of the content.
 	 * @return An instance of the mail content data.
-	 * @throws ShivaMailException
+	 * @throws nz.co.aetheric.shiva.email.ShivaMailException
 	 */
 	public MailContent getMailContent(String key, Locale locale, String type) throws ShivaMailException;
 

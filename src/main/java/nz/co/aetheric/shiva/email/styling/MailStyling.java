@@ -1,4 +1,4 @@
-package nz.co.aetheric.shiva.email;
+package nz.co.aetheric.shiva.email.styling;
 
 /**
  * This interface represents the data required to inject styling into an html email.
